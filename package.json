@@ -8,9 +8,10 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
+    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "start": "node build/server.js",
+    "test": "react-scripts build",
+    "build": "tsc"
   },
   "author": "Pranjit Das",
   "license": "ISC",
