@@ -1,20 +1,55 @@
 {
-  "name": "lazycoder54",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "commonjs",
+  "main": "build/server.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
-    "start": "node index.js"
+    "dev": "ts-node-dev --respawn --transpile-only server.ts",
+    "start": "node build/server.js",
+    "test": "react-scripts build",
+    "build": "tsc"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lazycoder54/lazycoder54.git"
-  },
-  "author": "",
+  "author": "Pranjit Das",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lazycoder54/lazycoder54/issues"
+  "dependencies": {
+    "@stripe/stripe-js": "^3.0.8",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node-cron": "^3.0.11",
+    "@types/socket.io": "^3.0.2",
+    "axios": "^1.6.7",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "ejs": "^3.1.9",
+    "ejss": "^1.2.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.2.0",
+    "git": "^0.1.5",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.1",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.9",
+    "react-helmet-async": "^2.0.4",
+    "socket.io": "^4.7.5",
+    "stripe": "^14.20.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
   },
-  "homepage": "https://github.com/lazycoder54/lazycoder54#readme"
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/node": "^20.11.17",
+    "@types/nodemailer": "^6.4.14"
+  }
 }
-
