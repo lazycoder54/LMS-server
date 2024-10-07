@@ -12,6 +12,7 @@ import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
 
+
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
@@ -26,7 +27,7 @@ app.use(
   })
 );
 
-//api request limit
+// //api request limit
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -63,7 +64,7 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(err);
 });
 
-//middleware calls
+// //middleware calls
 app.use(limiter);
 
 app.use(ErrorMiddleware);

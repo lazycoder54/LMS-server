@@ -33,7 +33,7 @@ interface ICourseData extends Document {
   questions: IComment[];
 }
 
-interface ICourse extends Document {
+export interface ICourse extends Document {
   name: string;
   description: string;
   categories: string,
@@ -60,7 +60,7 @@ const reviewSchema = new Schema<IReview>({
   },
   comment: String,
   commentReplies: [Object],
-});
+},{timestamps:true});
 
 const linkSchema = new Schema<ILink>({
   title: String,

@@ -418,7 +418,7 @@ export const addReplyToReview = catchAsyncError(
         review.commentReplies = [];
       }
 
-      review.commentReplies.push(replyData);
+      review.commentReplies?.push(replyData);
 
       await course?.save();
 

@@ -6,14 +6,12 @@ import {
   newPayment,
   sendStripePublishableKey,
 } from "../controllers/order.controller";
-import { updateAccessToken } from "../controllers/user.controllers";
 const orderRouter = express.Router();
 
 orderRouter.post("/create-order", isAuthenticated, createOrder);
 
 orderRouter.get(
   "/get-orders",
-  updateAccessToken,
   isAuthenticated,
   authorizeRoles("admin"),
   getAllOrders

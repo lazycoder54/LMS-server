@@ -3,7 +3,7 @@ import { catchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import { IOrder } from "../models/OrderModel";
 import userModel from "../models/user.model";
-import courseModel from "../models/course.model";
+import courseModel, { ICourse } from "../models/course.model";
 import path from "path";
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
@@ -17,7 +17,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 export const createOrder = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { CourseId, payment_info } = req.body as IOrder;
+      const { courseId, payment_info } = req.body as IOrder;
 
       if (payment_info) {
         if ("id" in payment_info) {
@@ -35,7 +35,7 @@ export const createOrder = catchAsyncError(
       const user = await userModel.findById(req.user?._id);
 
       const courseExistsInUser = user?.courses.some(
-        (course: any) => course._id.toString() === CourseId
+        (course: any) => course._id.toString() === courseId
       );
 
       if (courseExistsInUser) {
@@ -44,14 +44,14 @@ export const createOrder = catchAsyncError(
         );
       }
 
-      const course = await courseModel.findById(CourseId);
+      const course:ICourse | null = await courseModel.findById(courseId);
 
       if (!course) {
         return next(new ErrorHandler("Course not found", 404));
       }
 
       const data: any = {
-        CourseId: course._id,
+        courseId: course._id,
         userId: user?._id,
         payment_info,
       };
@@ -60,7 +60,7 @@ export const createOrder = catchAsyncError(
         order: {
           _id: course._id.toString().slice(0, 6),
           name: course.name,
-          price: course.name,
+          price: course.price,
           date: new Date().toLocaleDateString("en-us", {
             year: "numeric",
             month: "long",
@@ -137,6 +137,17 @@ export const newPayment = catchAsyncError(
       const myPayment = await stripe.paymentIntents.create({
         amount: req.body.amount,
         currency: "USD",
+        description: "for ELearning project",
+        shipping: {
+          name: "rogers",
+          address: {
+            line1: "510 Townsend St",
+            postal_code: "98140",
+            city: "San Francisco",
+            state: "CA",
+            country: "US",
+          },
+        },
         metadata: {
           company: "E-Learning",
         },
