@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["https://e-learning-client-2.vercel.app"],
+    methods: ['GET', 'POST'],
     credentials: true,
   })
 );
