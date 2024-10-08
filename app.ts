@@ -12,6 +12,7 @@ import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
 
+
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
@@ -21,7 +22,7 @@ app.use(cookieParser());
 // cors => cross origin resource sharing
 app.use(
   cors({
-    origin: ["https://e-learning-client-2.vercel.app"],
+    origin: ["https://e-learning-client-sigma.vercel.app"],
     credentials: true,
   })
 );
