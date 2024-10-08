@@ -149,7 +149,7 @@ exports.updateAccessToken = (0, catchAsyncErrors_1.catchAsyncError)(async (req, 
         res.cookie("access_token", accessToken, jwt_1.accessTokenOptions);
         res.cookie("refresh_token", refreshToken, jwt_1.refreshTokenOptions);
         await redis_1.redis.set(user._id, JSON.stringify(user), "EX", 604800); //7days
-        next();
+        return next();
     }
     catch (error) {
         return next(new ErrorHandler_1.default(error.message, 400));
@@ -281,8 +281,18 @@ exports.getAllUsers = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, n
 // update user role --- only for admin
 exports.UpdateUserRole = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, next) => {
     try {
-        const { id, role } = req.body;
-        (0, user_service_1.UpdateUserRoleService)(res, id, role);
+        const { email, role } = req.body;
+        const isUserExist = await user_model_1.default.findOne({ email });
+        if (isUserExist) {
+            const id = isUserExist._id;
+            (0, user_service_1.UpdateUserRoleService)(res, id, role);
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                message: "User not found",
+            });
+        }
     }
     catch (error) {
         return next(new ErrorHandler_1.default(error.message, 400));

@@ -19,7 +19,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // create order
 exports.createOrder = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, next) => {
     try {
-        const { CourseId, payment_info } = req.body;
+        const { courseId, payment_info } = req.body;
         if (payment_info) {
             if ("id" in payment_info) {
                 const paymentIntentId = payment_info.id;
@@ -30,16 +30,16 @@ exports.createOrder = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, n
             }
         }
         const user = await user_model_1.default.findById(req.user?._id);
-        const courseExistsInUser = user?.courses.some((course) => course._id.toString() === CourseId);
+        const courseExistsInUser = user?.courses.some((course) => course._id.toString() === courseId);
         if (courseExistsInUser) {
             return next(new ErrorHandler_1.default("You have already purchased this course", 400));
         }
-        const course = await course_model_1.default.findById(CourseId);
+        const course = await course_model_1.default.findById(courseId);
         if (!course) {
             return next(new ErrorHandler_1.default("Course not found", 404));
         }
         const data = {
-            CourseId: course._id,
+            courseId: course._id,
             userId: user?._id,
             payment_info,
         };
@@ -47,7 +47,7 @@ exports.createOrder = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, n
             order: {
                 _id: course._id.toString().slice(0, 6),
                 name: course.name,
-                price: course.name,
+                price: course.price,
                 date: new Date().toLocaleDateString("en-us", {
                     year: "numeric",
                     month: "long",
@@ -106,6 +106,17 @@ exports.newPayment = (0, catchAsyncErrors_1.catchAsyncError)(async (req, res, ne
         const myPayment = await stripe.paymentIntents.create({
             amount: req.body.amount,
             currency: "USD",
+            description: "for ELearning project",
+            shipping: {
+                name: "rogers",
+                address: {
+                    line1: "510 Townsend St",
+                    postal_code: "98140",
+                    city: "San Francisco",
+                    state: "CA",
+                    country: "US",
+                },
+            },
             metadata: {
                 company: "E-Learning",
             },

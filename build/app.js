@@ -26,7 +26,7 @@ exports.app.use((0, cors_1.default)({
     origin: ["http://localhost:3000"],
     credentials: true,
 }));
-//api request limit
+// //api request limit
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 15 * 60 * 1000,
     limit: 100,
@@ -51,6 +51,6 @@ exports.app.all("*", (req, res, next) => {
     err.statusCode = 404;
     next(err);
 });
-//middleware calls
+// //middleware calls
 exports.app.use(limiter);
 exports.app.use(error_1.ErrorMiddleware);

@@ -290,7 +290,7 @@ exports.addReplyToReview = (0, catchAsyncErrors_1.catchAsyncError)(async (req, r
         if (!review.commentReplies) {
             review.commentReplies = [];
         }
-        review.commentReplies.push(replyData);
+        review.commentReplies?.push(replyData);
         await course?.save();
         await redis_1.redis.set(courseId, JSON.stringify(course), "EX", 608400); //7days
         res.status(200).json({

@@ -33,7 +33,7 @@ const reviewSchema = new mongoose_1.Schema({
     },
     comment: String,
     commentReplies: [Object],
-});
+}, { timestamps: true });
 const linkSchema = new mongoose_1.Schema({
     title: String,
     url: String,
