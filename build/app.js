@@ -24,7 +24,6 @@ exports.app.use((0, cookie_parser_1.default)());
 // cors => cross origin resource sharing
 exports.app.use((0, cors_1.default)({
     origin: ["https://e-learning-client-2.vercel.app"],
-    methods: ['GET', 'POST'],
     credentials: true,
 }));
 // //api request limit
@@ -48,7 +47,7 @@ exports.app.get("/test", (req, res, next) => {
 });
 // unknown route
 exports.app.all("*", (req, res, next) => {
-    const err = new Error("Route ${req.orginalUrl} not found");
+    const err = new Error("Route ${req.originalUrl} not found");
     err.statusCode = 404;
     next(err);
 });

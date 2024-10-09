@@ -12,7 +12,6 @@ import analyticsRouter from "./routes/analytics.route";
 import layoutRouter from "./routes/layout.route";
 import { rateLimit } from "express-rate-limit";
 
-
 // body parser
 app.use(express.json({ limit: "50mb" }));
 
@@ -23,7 +22,6 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["https://e-learning-client-2.vercel.app"],
-    methods: ['GET', 'POST'],
     credentials: true,
   })
 );
@@ -60,7 +58,7 @@ app.get("/test", (req: Request, res: Response, next: NextFunction) => {
 
 // unknown route
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  const err = new Error("Route ${req.orginalUrl} not found") as any;
+  const err = new Error("Route ${req.originalUrl} not found") as any;
   err.statusCode = 404;
   next(err);
 });
